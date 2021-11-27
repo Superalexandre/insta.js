@@ -48,6 +48,11 @@ class ClientUser extends User {
         return this.biography
     }
 
+    async test(message) {
+        console.log(message)
+        return true
+    }
+
     toJSON () {
         return {
             ...super.toJSON(),
