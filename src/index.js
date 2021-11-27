@@ -3,7 +3,7 @@ const Client = require('./structures/Client')
 const ClientUser = require('./structures/ClientUser')
 const { StickerBuilder } = require("instagram-private-api/dist/sticker-builder/sticker-builder")
 
-Client.prototype.postPhotoInStory = function(buffer, media) {
+Client.prototype.postPhotoInStory = async function(buffer, media) {
     const sticker = new StickerBuilder()
         .add(StickerBuilder.attachmentFromMedia((media).center()))
         .build()
@@ -16,7 +16,7 @@ Client.prototype.postPhotoInStory = function(buffer, media) {
     return story
 }
 
-Client.prototype.postStory = function(buffer) {
+Client.prototype.postStory = async function(buffer) {
     const story = await this.client.ig.publish.story({
         file: buffer
     })
@@ -24,7 +24,7 @@ Client.prototype.postStory = function(buffer) {
     return story
 }
 
-Client.prototype.postPhoto = function(buffer, caption, location, usertags) {
+Client.prototype.postPhoto = async function(buffer, caption, location, usertags) {
     const media = await this.client.ig.publish.photo({
         file: buffer,
         caption: caption ?? "",
@@ -35,12 +35,12 @@ Client.prototype.postPhoto = function(buffer, caption, location, usertags) {
     return media
 }
 
-Client.prototype.findLocation = function(lat, lng, query) {
+Client.prototype.findLocation = async function(lat, lng, query) {
     const locations = await this.client.ig.search.location(lat, lng, query ?? "")
     return locations
 }
 
-Client.prototype.tagUser = function(users) {
+Client.prototype.tagUser = async function(users) {
     async function generateUsertagFromName(ig, name, x, y) {
         const clamp = (value, min, max) => Math.max(Math.min(value, max), min)
 
