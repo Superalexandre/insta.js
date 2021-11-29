@@ -115,12 +115,11 @@ class ClientUser extends User {
         return usertags
     }
 
-    async postAlbum ({ buffers, caption, location, usertags }) {
+    async postAlbum ({ buffers, caption, location }) {
         const media = await this.client.ig.publish.album({
             items: buffers,
             caption: caption ?? "",
             location: location ?? undefined,
-            usertags: usertags ?? undefined
         })
 
         return media
