@@ -85,11 +85,11 @@ class ClientUser extends User {
         const locations = await this.client.ig.search.location(lat, lng, query ?? "")
         return locations
     }
-    
+
     async tagUser (users) {
         async function generateUsertagFromName(ig, name, x, y) {
             const clamp = (value, min, max) => Math.max(Math.min(value, max), min)
-    
+
             x = clamp(x, 0.0001, 0.9999)
             y = clamp(y, 0.0001, 0.9999)
             const { pk } = await ig.user.searchExact(name)
@@ -98,23 +98,33 @@ class ClientUser extends User {
                 position: [x, y]
             }
         }
-    
+
         if (!Array.isArray(users)) return []
-    
+
         const usertags = []
-    
+
         for (let i = 0; i < users.length; i++) {
             const user = users[i]
-    
+
             if (!user.username || !user.posX || !user.posY) continue
-    
+
             const generatedUserTag = await generateUsertagFromName(this.client.ig, user.username, user.posX, user.posY)
             usertags.push(generatedUserTag)
         }
-    
+
         return usertags
     }
-    
+
+    async postAlbum ({ buffers, caption, location, usertags }) {
+        const media = await this.client.ig.publish.album({
+            items: buffers,
+            caption: caption ?? "",
+            location: location ?? undefined,
+            usertags: usertags ?? undefined
+        })
+
+        return media
+    }
 
     toJSON () {
         return {
