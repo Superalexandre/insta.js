@@ -357,17 +357,19 @@ class Client extends EventEmitter {
     async login (username, password, state, proxy) {
         const ig = withFbns(withRealtime(new IgApiClient()))
         ig.state.generateDevice(username)
+
         if (state) {
             await ig.importState(state)
         }
+        
         if (proxy && proxy.agentClass && proxy.agentOptions) {
             ig.request.defaults.agentClass = proxy.agentClass
             ig.request.defaults.agentOptions = proxy.agentOptions
 
             this.proxy = proxy
         }
-        if (!this.proxy) this.proxy = {}
-        if (this.preLoginFlow) await ig.simulate.preLoginFlow()
+        if (!this.proxy) this.proxy = null
+        if (!this.preLoginFlow) await ig.simulate.preLoginFlow()
         const response = await ig.account.login(username, password)
         const userData = await ig.user.info(response.pk)
         this.user = new ClientUser(this, {
