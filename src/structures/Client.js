@@ -23,7 +23,7 @@ class Client extends EventEmitter {
     /**
      * @param {ClientOptions} options
      */
-    constructor (options) {
+    constructor (options, preLoginFlow) {
         super()
         /**
          * @type {?ClientUser}
@@ -45,6 +45,8 @@ class Client extends EventEmitter {
          * The options for the client.
          */
         this.options = options || {}
+
+        this.preLoginFlow = preLoginFlow || true
 
         /**
          * @typedef {Object} Cache
@@ -341,9 +343,9 @@ class Client extends EventEmitter {
      * @returns {Promise<void>}
      */
     async logout () {
-        await this.ig.account.logout();
-        await this.ig.realtime.disconnect();
-        await this.ig.fbns.disconnect();
+        await this.ig.account.logout()
+        await this.ig.realtime.disconnect()
+        await this.ig.fbns.disconnect()
     }
 
     /**
@@ -358,7 +360,7 @@ class Client extends EventEmitter {
         if (state) {
             await ig.importState(state)
         }
-        await ig.simulate.preLoginFlow()
+        if (this.preLoginFlow) await ig.simulate.preLoginFlow()
         const response = await ig.account.login(username, password)
         const userData = await ig.user.info(response.pk)
         this.user = new ClientUser(this, {
