@@ -1,5 +1,3 @@
-<img width="150" height="150" align="left" style="float: left; margin: 0 10px 0 0;" alt="Xiao" src="https://i.goopics.net/PO1L4.png">
-
 # [Insta.js](https://npmjs.com/@androz2091/insta.js)
 
 Big thanks to [Androz2091](https://github.com/Androz2091) for original repo
@@ -16,9 +14,11 @@ Big thanks to [Androz2091](https://github.com/Androz2091) for original repo
 
 ## Todo
 
-[ ] LikeCollector
-[ ] Delete story
-[ ] Delete post
++ [ ] LikeCollector
+  + [ ] Test
++ [ ] Delete story
++ [ ] Delete post
++ [ ] Post albums
 
 ## Links
 
