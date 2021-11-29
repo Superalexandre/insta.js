@@ -11,6 +11,7 @@ Big thanks to [Androz2091](https://github.com/Androz2091) for original repo
 + ClientUser postPhoto
 + ClientUser findLocation
 + ClientUser tagUser
++ ClientUser postAlbum
 
 ## Todo
 
@@ -18,7 +19,7 @@ Big thanks to [Androz2091](https://github.com/Androz2091) for original repo
   + [ ] Test
 + [ ] Delete story
 + [ ] Delete post
-+ [ ] Post albums
++ [X] Post albums
 
 ## Links
 
