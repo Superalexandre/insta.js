@@ -354,11 +354,15 @@ class Client extends EventEmitter {
      * @param {string} password The password of the Instagram account.
      * @param {object} [state] Optional state object. It can be generated using client.ig.exportState().
      */
-    async login (username, password, state) {
+    async login (username, password, state, proxy) {
         const ig = withFbns(withRealtime(new IgApiClient()))
         ig.state.generateDevice(username)
         if (state) {
             await ig.importState(state)
+        }
+        if (proxy && proxy.agentClass && proxy.agentOptions) {
+            ig.request.defaults.agentClass = proxy.agentClass
+            ig.request.defaults.agentOptions = proxy.agentOptions
         }
         if (this.preLoginFlow) await ig.simulate.preLoginFlow()
         const response = await ig.account.login(username, password)
