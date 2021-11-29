@@ -363,7 +363,10 @@ class Client extends EventEmitter {
         if (proxy && proxy.agentClass && proxy.agentOptions) {
             ig.request.defaults.agentClass = proxy.agentClass
             ig.request.defaults.agentOptions = proxy.agentOptions
+
+            this.proxy = proxy
         }
+        if (!this.proxy) this.proxy = {}
         if (this.preLoginFlow) await ig.simulate.preLoginFlow()
         const response = await ig.account.login(username, password)
         const userData = await ig.user.info(response.pk)
@@ -416,6 +419,7 @@ class Client extends EventEmitter {
         const json = {
             ready: this.ready,
             options: this.options,
+            proxy: this.proxy,
             id: this.user.id
         }
         return json
