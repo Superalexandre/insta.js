@@ -49,9 +49,9 @@ class ClientUser extends User {
         return this.biography
     }
 
-    async postPhotoInStory ({ buffer, media }) {
+    async postPhotoInStory ({ buffer, media, height = 1080, width = 1920 }) {
         const sticker = new StickerBuilder()
-            .add(StickerBuilder.attachmentFromMedia((media).center()))
+            .add(StickerBuilder.attachmentFromMedia((media, { height, width })).center())
             .build()
     
         const story = await this.client.ig.publish.story({
