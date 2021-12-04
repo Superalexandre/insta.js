@@ -1,5 +1,6 @@
 const User = require('./User')
 const { StickerBuilder } = require("instagram-private-api/dist/sticker-builder/sticker-builder")
+const fs = require("fs")
 
 /**
  * Represents the logged in client's Instagram user.
@@ -51,7 +52,7 @@ class ClientUser extends User {
 
     async postPhotoInStory ({ buffer, media, height = 1080, width = 1920 }) {
         const sticker = new StickerBuilder()
-            .add(StickerBuilder.attachmentFromMedia((media, { height, width })).center())
+            .add(StickerBuilder.attachmentFromMedia(media, { height, width }).center())
             .build()
     
         const story = await this.client.ig.publish.story({
