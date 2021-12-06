@@ -1,4 +1,5 @@
 const MessageCollector = require('./MessageCollector')
+const LikeCollector = require('./LikeCollector')
 
 /**
  * Represents a Message
@@ -186,6 +187,12 @@ class Message {
      */
     createMessageCollector (options) {
         const collector = new MessageCollector(this.chat, options)
+        return collector
+    }
+
+
+    createLikeCollector (options) {
+        const collector = new LikeCollector(this.chat, options)
         return collector
     }
 
