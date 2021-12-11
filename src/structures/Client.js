@@ -167,6 +167,7 @@ class Client extends EventEmitter {
             return
         }
         this.emit('rawRealtime', topic, payload)
+        if (!topic.id) return
         if (topic.id === '146') {
             const rawMessages = JSON.parse(payload)
             rawMessages.forEach(async (rawMessage) => {
@@ -354,7 +355,7 @@ class Client extends EventEmitter {
      * @param {string} password The password of the Instagram account.
      * @param {object} [state] Optional state object. It can be generated using client.ig.exportState().
      */
-    async login (username, password, state, proxy) {
+    async login (username, password, { state, proxy, errorCallback }) {
         const ig = withFbns(withRealtime(new IgApiClient()))
         ig.state.generateDevice(username)
 
@@ -391,8 +392,8 @@ class Client extends EventEmitter {
             }
         })
         ig.realtime.on('receive', (topic, messages) => this.handleRealtimeReceive(topic, messages))
-        ig.realtime.on('error', console.error)
-        ig.realtime.on('close', () => console.error('RealtimeClient closed'))
+        ig.realtime.on('error', (error) => this.emit("error", error))
+        ig.realtime.on('close', () => this.emit("error", "Realtime connection closed"))
 
         await ig.realtime.connect({
             irisData: await ig.feed.directInbox().request()
