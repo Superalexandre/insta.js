@@ -6,6 +6,7 @@ Big thanks to [Androz2091](https://github.com/Androz2091) for original repo
 
 + Client proxy support
 + Client optional preLoginFlow (400 error)
++ Client event comment
 + ClientUser postStory
 + ClientUser postPhotoInStory
 + ClientUser postPhoto
@@ -20,6 +21,8 @@ Big thanks to [Androz2091](https://github.com/Androz2091) for original repo
 + [ ] Delete story
 + [ ] Delete post
 + [X] Post albums
++ [ ] Like on post
++ [ ] Mention
 
 ## Links
 
