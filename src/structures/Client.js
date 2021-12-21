@@ -167,7 +167,7 @@ class Client extends EventEmitter {
             return
         }
         this.emit('rawRealtime', topic, payload)
-        if (!topic.id) return
+        if (!topic || !topic.id) return
         if (topic.id === '146') {
             const rawMessages = JSON.parse(payload)
             rawMessages.forEach(async (rawMessage) => {
@@ -315,14 +315,17 @@ class Client extends EventEmitter {
             return
         }
         this.emit('rawFbns', data)
+        
         if (data.pushCategory === 'new_follower') {
             const user = await this.fetchUser(data.sourceUserId)
             this.emit('newFollower', user)
         }
+        
         if (data.pushCategory === 'private_user_follow_request') {
             const user = await this.fetchUser(data.sourceUserId)
             this.emit('followRequest', user)
         }
+        
         if (data.pushCategory === 'direct_v2_pending') {
             if (!this.cache.pendingChats.get(data.actionParams.id)) {
                 const pendingRequests = await this.ig.feed.directPending().items()
@@ -336,6 +339,22 @@ class Client extends EventEmitter {
             if (pendingChat) {
                 this.emit('pendingRequest', pendingChat)
             }
+        }
+
+        if (data.pushCategory === "comment") {
+            const [username,, ...comment] = data.message.split(" ")
+            const user = await this.fetchUser(username)
+
+            const joinedComment = comment.join(" ")
+
+            // Remove first and last character
+            const parsedComment = joinedComment.substring(1, joinedComment.length - 1)
+            
+            // Get post by media_id
+            const postData = await this.ig.media.info(data.actionParams.media_id)
+            const post = JSON.parse(JSON.stringify(postData))
+
+            this.emit("comment", parsedComment, user, post)
         }
     }
 
@@ -389,6 +408,7 @@ class Client extends EventEmitter {
                 this.cache.pendingChats.set(thread.thread_id, chat)
             }
         })
+
         ig.realtime.on('receive', (topic, messages) => this.handleRealtimeReceive(topic, messages))
         ig.realtime.on('error', (error) => this.emit("error", error))
         ig.realtime.on('close', () => this.emit("error", "Realtime connection closed"))
