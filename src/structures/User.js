@@ -111,7 +111,7 @@ class User {
     }
 
     async currentUser () {
-        const user = await this.client.ig.currentUser()
+        const user = await this.client.ig.account.currentUser()
 
         return user
     }
