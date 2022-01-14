@@ -110,6 +110,12 @@ class User {
         return user
     }
 
+    async currentUser () {
+        const user = await this.client.ig.currentUser()
+
+        return user
+    }
+
     /**
      * Fetch (or create) a private chat between the client and the user.
      * @returns {Promise<Chat>}
