@@ -50,6 +50,22 @@ class ClientUser extends User {
         return this.biography
     }
 
+    async editProfile (options) {
+        const newProfile = await this.client.ig.account.editProfile(options)
+
+        return newProfile
+    }
+
+    /**
+     * Post photo in story
+     * 
+     * @param {buffer} buffer - Buffer of photo
+     * @param {any} media - media to post
+     * @param {number} width - width of the story
+     * @param {number} height - height of the story
+     * 
+     * @returns {Promise<object>} - story media
+     */
     async postPhotoInStory ({ buffer, media, height = 1080, width = 1920 }) {
         const sticker = new StickerBuilder()
             .add(StickerBuilder.attachmentFromMedia(media, { height, width }).center())
