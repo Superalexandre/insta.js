@@ -4,7 +4,7 @@ class LikeCollector extends EventEmitter {
     constructor (message, { filter, idle }) {
         super()
 
-        this.client = message.chat.client
+        this.client = message.client
         this.message = message
         this.chat = message.chat
         this.filter = filter || (() => true)

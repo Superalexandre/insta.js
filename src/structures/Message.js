@@ -192,7 +192,7 @@ class Message {
 
 
     createLikeCollector (options) {
-        const collector = new LikeCollector(this.chat, options)
+        const collector = new LikeCollector(this, options)
         return collector
     }
 
