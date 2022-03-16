@@ -255,6 +255,27 @@ class Chat {
     }
 
     /**
+     * Send a video in the chat
+     * @param {Buffer} buffer The mp4 buffer to send
+     * @returns {Promise<Message>}
+     * 
+     * @example
+     * chat.sendVideo(fs.readFileSync('video.mp4'));
+     */
+    sendVideo (buffer) {
+        return new Promise((resolve) => {
+            this.threadEntity.broadcastVideo({ video: buffer }).then(({ item_id: itemID }) => {
+                if (this.typing && !this._disableTypingOnSend) this._keepTypingAlive()
+                this._sentMessagesPromises.set(itemID, resolve)
+                if (this.messages.has(itemID)) {
+                    this._sentMessagesPromises.delete(itemID)
+                    resolve(this.messages.get(itemID))
+                }
+            })
+        })
+    }
+
+    /**
      * Send a photo in the chat
      * @param {string|Buffer|Attachment} attachment The photo to send
      * @returns {Promise<Message>}
