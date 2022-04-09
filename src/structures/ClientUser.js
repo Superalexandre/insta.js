@@ -98,9 +98,10 @@ class ClientUser extends User {
         return media
     }
     
-    async postVideo ({ buffer, caption, location, usertags }) {
+    async postVideo ({ buffer, image, caption, location, usertags }) {
         const media = await this.client.ig.publish.video({
-            file: buffer,
+            video: buffer,
+            coverImage: image ?? undefined,
             caption: caption ?? "",
             location: location ?? undefined,
             usertags: usertags ?? undefined
