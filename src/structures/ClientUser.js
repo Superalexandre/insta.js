@@ -98,6 +98,17 @@ class ClientUser extends User {
         return media
     }
     
+    async postVideo ({ buffer, caption, location, usertags }) {
+        const media = await this.client.ig.video({
+            file: buffer,
+            caption: caption ?? "",
+            location: location ?? undefined,
+            usertags: usertags ?? undefined
+        })
+
+        return media
+    }
+
     async findLocation ({ lat, lng, query }) {
         const locations = await this.client.ig.search.location(lat, lng, query ?? "")
         return locations
