@@ -1,4 +1,3 @@
-
 import { Client } from "./structures/Client"
 import { ClientUser } from "./structures/ClientUser"
 import { Attachment } from "./structures/Attachment"
