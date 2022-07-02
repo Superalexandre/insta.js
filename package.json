@@ -11,14 +11,8 @@
     "url": "https://github.com/Androz2091/insta.js/issues"
   },
   "exports": {
-    ".": [
-      {
-        "require": "./src/index.js",
-        "import": "./esm/index.mjs"
-      },
-      "./src/index.js"
-    ],
-    "./esm": "./esm/index.mjs"
+    "default": "./src/index.js",
+    "Insta": "./src/index.js"
   },
   "scripts": {
     "docs": "docgen --source src --custom docs/index.yml --output docs/docs.json",
