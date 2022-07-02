@@ -1,8 +1,8 @@
-const getUrls = require('get-urls')
-const Collection = require('@discordjs/collection')
-const Util = require('../utils/Util')
-const Message = require('./Message')
-const Attachment = require('./Attachment')
+import getUrls from 'get-urls'
+import Collection from '@discordjs/collection'
+import { isMessageValid } from '../utils/Util'
+import Message from './Message'
+import Attachment from './Attachment'
 
 /**
  * Represents a chat between one or more users.
@@ -138,7 +138,7 @@ class Chat {
         await this.client.ig.directThread.approve(this.id)
         if (!this.client.cache.chats.has(this.id)) this.client.cache.chats.set(this.id, this)
         this.client.cache.pendingChats.delete(this.id)
-        if (Util.isMessageValid(this.messages.first())) this.client.emit('messageCreate', this.messages.first())
+        if (isMessageValid(this.messages.first())) this.client.emit('messageCreate', this.messages.first())
     }
 
     /**
@@ -319,4 +319,4 @@ class Chat {
     }
 }
 
-module.exports = Chat
+export default Chat

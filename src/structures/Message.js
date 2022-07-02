@@ -1,5 +1,5 @@
-const MessageCollector = require('./MessageCollector')
-const LikeCollector = require('./LikeCollector')
+import MessageCollector from './MessageCollector'
+import LikeCollector from './LikeCollector'
 
 /**
  * Represents a Message
@@ -241,4 +241,4 @@ class Message {
     }
 }
 
-module.exports = Message
+export default Message

@@ -1,6 +1,6 @@
-const User = require('./User')
-const { StickerBuilder } = require("instagram-private-api/dist/sticker-builder/sticker-builder")
-const fs = require("fs")
+import User from './User'
+import { StickerBuilder } from "instagram-private-api/dist/sticker-builder/sticker-builder"
+// import fs from "fs"
 
 /**
  * Represents the logged in client's Instagram user.
@@ -165,4 +165,4 @@ class ClientUser extends User {
     }
 }
 
-module.exports = ClientUser
+export default ClientUser

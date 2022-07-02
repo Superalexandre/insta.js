@@ -1,15 +1,15 @@
-const { withRealtime, withFbns } = require('instagram_mqtt')
+import { withRealtime, withFbns } from 'instagram_mqtt'
 // const { GraphQLSubscriptions, SkywalkerSubscriptions } = require('instagram_mqtt/dist/realtime/subscriptions')
-const { IgApiClient } = require('instagram-private-api')
-const { EventEmitter } = require('events')
-const Collection = require('@discordjs/collection')
+import { IgApiClient } from 'instagram-private-api'
+import { EventEmitter } from 'events'
+import Collection from '@discordjs/collection'
 
-const Util = require('../utils/Util')
+import { isID, matchInboxThreadPath, matchMessagePath, matchAdminPath, isMessageValid } from '../utils/Util'
 
-const ClientUser = require('./ClientUser')
-const Message = require('./Message')
-const Chat = require('./Chat')
-const User = require('./User')
+import ClientUser from './ClientUser'
+import Message from './Message'
+import Chat from './Chat'
+import User from './User'
 
 /**
  * Client, the main hub for interacting with the Instagram API.
@@ -137,7 +137,7 @@ class Client extends EventEmitter {
      * });
      */
     async fetchUser (query, force = false) {
-        const userID = Util.isID(query) ? query : await this.ig.user.getIdByUsername(query)
+        const userID = isID(query) ? query : await this.ig.user.getIdByUsername(query)
         if (!this.cache.users.has(userID)) {
             const userPayload = await this.ig.user.info(userID)
             const user = new User(this, userPayload)
@@ -175,9 +175,9 @@ class Client extends EventEmitter {
                     // Emit right event
                     switch (data.op) {
                     case 'replace': {
-                        const isInboxThreadPath = Util.matchInboxThreadPath(data.path, false)
+                        const isInboxThreadPath = matchInboxThreadPath(data.path, false)
                         if (isInboxThreadPath) {
-                            const [ threadID ] = Util.matchInboxThreadPath(data.path, true)
+                            const [ threadID ] = matchInboxThreadPath(data.path, true)
                             if (this.cache.chats.has(threadID)) {
                                 const chat = this.cache.chats.get(threadID)
                                 const oldChat = Object.assign(Object.create(chat), chat)
@@ -209,9 +209,9 @@ class Client extends EventEmitter {
                             }
                             return
                         }
-                        const isMessagePath = Util.matchMessagePath(data.path, false)
+                        const isMessagePath = matchMessagePath(data.path, false)
                         if (isMessagePath) {
-                            const [ threadID ] = Util.matchMessagePath(data.path, true)
+                            const [ threadID ] = matchMessagePath(data.path, true)
                             this.fetchChat(threadID).then((chat) => {
                                 const messagePayload = JSON.parse(data.value)
                                 if (chat.messages.has(messagePayload.item_id)) {
@@ -240,9 +240,9 @@ class Client extends EventEmitter {
                     }
 
                     case 'add': {
-                        const isAdminPath = Util.matchAdminPath(data.path, false)
+                        const isAdminPath = matchAdminPath(data.path, false)
                         if (isAdminPath) {
-                            const [ threadID, userID ] = Util.matchAdminPath(data.path, true)
+                            const [ threadID, userID ] = matchAdminPath(data.path, true)
                             this.fetchChat(threadID).then((chat) => {
                                 // Mark the user as an admin
                                 chat.adminUserIDs.push(userID)
@@ -252,25 +252,25 @@ class Client extends EventEmitter {
                             })
                             return
                         }
-                        const isMessagePath = Util.matchMessagePath(data.path, false)
+                        const isMessagePath = matchMessagePath(data.path, false)
                         if (isMessagePath) {
-                            const [ threadID ] = Util.matchMessagePath(data.path, true)
+                            const [ threadID ] = matchMessagePath(data.path, true)
                             this.fetchChat(threadID).then((chat) => {
                                 // Create a new message
                                 const messagePayload = JSON.parse(data.value)
                                 if (messagePayload.item_type === 'action_log' || messagePayload.item_type === 'video_call_event') return
                                 const message = new Message(this, threadID, messagePayload)
                                 chat.messages.set(message.id, message)
-                                if (Util.isMessageValid(message)) this.emit('messageCreate', message)
+                                if (isMessageValid(message)) this.emit('messageCreate', message)
                             })
                         }
                         break
                     }
 
                     case 'remove': {
-                        const isAdminPath = Util.matchAdminPath(data.path, false)
+                        const isAdminPath = matchAdminPath(data.path, false)
                         if (isAdminPath) {
-                            const [ threadID, userID ] = Util.matchAdminPath(data.path, true)
+                            const [ threadID, userID ] = matchAdminPath(data.path, true)
                             this.fetchChat(threadID).then((chat) => {
                                 // Remove the user from the administrators
                                 chat.adminUserIDs.push(userID)
@@ -280,9 +280,9 @@ class Client extends EventEmitter {
                             })
                             return
                         }
-                        const isMessagePath = Util.matchMessagePath(data.path, false)
+                        const isMessagePath = matchMessagePath(data.path, false)
                         if (isMessagePath) {
-                            const [ threadID ] = Util.matchMessagePath(data.path, true)
+                            const [ threadID ] = matchMessagePath(data.path, true)
                             this.fetchChat(threadID).then((chat) => {
                                 // Emit message delete event
                                 const messageID = data.value
@@ -447,7 +447,7 @@ class Client extends EventEmitter {
     }
 }
 
-module.exports = Client
+export default Client
 
 /**
  * Emitted when a message is sent in a chat the bot is in

@@ -1,17 +1,22 @@
-'use strict'
 
-module.exports = {
-    // Client
-    Client: require('./structures/Client'),
-    ClientUser: require('./structures/ClientUser'),
+import { Client } from "./structures/Client"
+import { ClientUser } from "./structures/ClientUser"
+import { Attachment } from "./structures/Attachment"
+import { Chat } from "./structures/Chat"
+import { Message } from "./structures/Message"
+import { MessageCollector } from "./structures/MessageCollector"
+import { LikeCollector } from "./structures/LikeCollector"
+import { User } from "./structures/User"
+import { Util } from "./utils/Util"
 
-    // Structures
-    Attachment: require('./structures/Attachment'),
-    Chat: require('./structures/Chat'),
-    Message: require('./structures/Message'),
-    MessageCollector: require('./structures/MessageCollector'),
-    User: require('./structures/User'),
-
-    // Util
-    Util: require('./utils/Util')
+export {
+    Client,
+    ClientUser,
+    Attachment,
+    Chat,
+    Message,
+    MessageCollector,
+    LikeCollector,
+    User,
+    Util
 }

@@ -1,6 +1,6 @@
-const fetch = require('node-fetch')
-const fs = require('fs')
-const Jimp = require('jimp')
+import fetch from 'node-fetch'
+import { existsSync, readFileSync } from 'fs'
+import { read, MIME_JPEG } from 'jimp'
 
 /**
  * Create an attachment for insta.js
@@ -41,8 +41,8 @@ class Attachment {
      * @return {Promise<void>}
      */
     async _handleFile (file) {
-        if (!fs.existsSync(file)) throw new Error('Couldn\'t resolve the file.')
-        const fileStream = fs.readFileSync(file)
+        if (!existsSync(file)) throw new Error('Couldn\'t resolve the file.')
+        const fileStream = readFileSync(file)
         if (file.endsWith('.jpg') || file.endsWith('.jpeg')) {
             this.file = fileStream
             return
@@ -56,8 +56,8 @@ class Attachment {
      * @return {Promise<void>}
      */
     async _handleBuffer (data) {
-        const image = await Jimp.read(data)
-        this.file = await image.getBufferAsync(Jimp.MIME_JPEG)
+        const image = await read(data)
+        this.file = await image.getBufferAsync(MIME_JPEG)
     }
 
     /**
@@ -72,4 +72,4 @@ class Attachment {
     }
 }
 
-module.exports = Attachment
+export default Attachment

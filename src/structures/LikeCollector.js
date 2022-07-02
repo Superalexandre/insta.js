@@ -1,4 +1,4 @@
-const { EventEmitter } = require("events")
+import { EventEmitter } from "events"
 
 class LikeCollector extends EventEmitter {
     constructor (message, { filter, idle }) {
@@ -50,4 +50,4 @@ class LikeCollector extends EventEmitter {
     }
 }
 
-module.exports = LikeCollector
+export default LikeCollector
