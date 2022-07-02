@@ -10,10 +10,6 @@
   "bugs": {
     "url": "https://github.com/Androz2091/insta.js/issues"
   },
-  "exports": {
-    "default": "./src/index.js",
-    "Insta": "./src/index.js"
-  },
   "scripts": {
     "docs": "docgen --source src --custom docs/index.yml --output docs/docs.json",
     "docs:test": "docgen --source src --custom docs/index.yml"
