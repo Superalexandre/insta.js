@@ -1,5 +1,5 @@
-import MessageCollector from './MessageCollector'
-import LikeCollector from './LikeCollector'
+import MessageCollector from './MessageCollector.js'
+import LikeCollector from './LikeCollector.js'
 
 /**
  * Represents a Message

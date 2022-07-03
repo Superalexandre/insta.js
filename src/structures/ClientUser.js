@@ -1,5 +1,5 @@
-import User from './User'
-import { StickerBuilder } from "instagram-private-api/dist/sticker-builder/sticker-builder"
+import User from './User.js'
+import { StickerBuilder } from "instagram-private-api/dist/sticker-builder/sticker-builder.js"
 // import fs from "fs"
 
 /**

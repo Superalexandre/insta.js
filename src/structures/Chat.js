@@ -1,8 +1,8 @@
 import getUrls from 'get-urls'
 import Collection from '@discordjs/collection'
-import { isMessageValid } from '../utils/Util'
-import Message from './Message'
-import Attachment from './Attachment'
+import Util from '../utils/Util.js'
+import Message from './Message.js'
+import Attachment from './Attachment.js'
 
 /**
  * Represents a chat between one or more users.
@@ -138,7 +138,7 @@ class Chat {
         await this.client.ig.directThread.approve(this.id)
         if (!this.client.cache.chats.has(this.id)) this.client.cache.chats.set(this.id, this)
         this.client.cache.pendingChats.delete(this.id)
-        if (isMessageValid(this.messages.first())) this.client.emit('messageCreate', this.messages.first())
+        if (Util.isMessageValid(this.messages.first())) this.client.emit('messageCreate', this.messages.first())
     }
 
     /**

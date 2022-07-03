@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { existsSync, readFileSync } from 'fs'
-import { read, MIME_JPEG } from 'jimp'
+// import { read, MIME_JPEG } from 'jimp'
+import jimp from "jimp"
 
 /**
  * Create an attachment for insta.js
@@ -56,8 +57,8 @@ class Attachment {
      * @return {Promise<void>}
      */
     async _handleBuffer (data) {
-        const image = await read(data)
-        this.file = await image.getBufferAsync(MIME_JPEG)
+        const image = await jimp.read(data)
+        this.file = await image.getBufferAsync(jimp.MIME_JPEG)
     }
 
     /**
