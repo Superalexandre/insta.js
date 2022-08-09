@@ -23,6 +23,16 @@ declare module '@androz2091/insta.js' {
         public createChat(userIDs: string[]): Promise<Chat>;
         public fetchChat(chatID: string, force: boolean): Promise<Chat>;
         public fetchUser(query: string, force: boolean): Promise<User>;
+        
+        public editProfile(options: {}): Promise<void>;
+        public postPhotoInStory({ buffer: Buffer, media: any, width = 1080, height = 1080 }): Promise<void>;
+        public postStory({ buffer: Buffer }): Promise<void>;
+        public postPhoto({ buffer: Buffer, caption: string, usertags: any, width = 1080, height = 1080 }): Promise<void>;
+        public postVideo({ buffer: Buffer, image: Buffer, caption: string, usertags: any }): Promise<void>;
+        public findLocation({ lat: number, lng: number, query: string }): Promise<any>;
+        public tagUser(users: Array<{ username: string, posX: number, posY: number }>): Promise<void>;
+        public postAlbum({ buffers, location, caption }: { buffers: Array<{ file: Buffer, width: number, height: number }>, caption?: string, location?: any }): Promise<any>;
+
         public logout(): void;
         public login(username: string, password: string, state: object): void;
         public toJSON(): ClientJSON;
@@ -117,7 +127,6 @@ declare module '@androz2091/insta.js' {
         public readonly send(): undefined;
 
         public _patch(data: ClientUserData): void;
-        public setBiography(content: string): Promise<string>;
         public toJSON(): ClientUserJSON;
     };
 

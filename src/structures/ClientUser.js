@@ -1,5 +1,4 @@
 import User from './User.js'
-import { StickerBuilder } from "instagram-private-api/dist/sticker-builder/sticker-builder.js"
 // import fs from "fs"
 
 /**
@@ -48,110 +47,6 @@ class ClientUser extends User {
         this.biography = content
         await this.client.ig.account.setBiography(content)
         return this.biography
-    }
-
-    async editProfile (options) {
-        const newProfile = await this.client.ig.account.editProfile(options)
-
-        return newProfile
-    }
-
-    /**
-     * Post photo in story
-     * 
-     * @param {buffer} buffer - Buffer of photo
-     * @param {any} media - media to post
-     * @param {number} width - width of the story
-     * @param {number} height - height of the story
-     * 
-     * @returns {Promise<object>} - story media
-     */
-    async postPhotoInStory ({ buffer, media, height = 1080, width = 1920 }) {
-        const sticker = new StickerBuilder()
-            .add(StickerBuilder.attachmentFromMedia(media, { height, width }).center())
-            .build()
-    
-        const story = await this.client.ig.publish.story({
-            file: buffer,
-            stickerConfig: sticker
-        })
-    
-        return story
-    }
-    
-    async postStory ({ buffer }) {
-        const story = await this.client.ig.publish.story({
-            file: buffer
-        })
-    
-        return story
-    }
-    
-    async postPhoto ({ buffer, caption, location, usertags }) {
-        const media = await this.client.ig.publish.photo({
-            file: buffer,
-            caption: caption ?? "",
-            location: location ?? undefined,
-            usertags: usertags ?? undefined
-        })
-    
-        return media
-    }
-    
-    async postVideo ({ buffer, image, caption, location, usertags }) {
-        const media = await this.client.ig.publish.video({
-            video: buffer,
-            coverImage: image ?? undefined,
-            caption: caption ?? "",
-            location: location ?? undefined,
-            usertags: usertags ?? undefined
-        })
-
-        return media
-    }
-
-    async findLocation ({ lat, lng, query }) {
-        const locations = await this.client.ig.search.location(lat, lng, query ?? "")
-        return locations
-    }
-
-    async tagUser (users) {
-        async function generateUsertagFromName(ig, name, x, y) {
-            const clamp = (value, min, max) => Math.max(Math.min(value, max), min)
-
-            x = clamp(x, 0.0001, 0.9999)
-            y = clamp(y, 0.0001, 0.9999)
-            const { pk } = await ig.user.searchExact(name)
-            return {
-                user_id: pk,
-                position: [x, y]
-            }
-        }
-
-        if (!Array.isArray(users)) return []
-
-        const usertags = []
-
-        for (let i = 0; i < users.length; i++) {
-            const user = users[i]
-
-            if (!user.username || !user.posX || !user.posY) continue
-
-            const generatedUserTag = await generateUsertagFromName(this.client.ig, user.username, user.posX, user.posY)
-            usertags.push(generatedUserTag)
-        }
-
-        return usertags
-    }
-
-    async postAlbum ({ buffers, caption, location }) {
-        const media = await this.client.ig.publish.album({
-            items: buffers,
-            caption: caption ?? "",
-            location: location ?? undefined,
-        })
-
-        return media
     }
 
     toJSON () {
