@@ -25,7 +25,7 @@ declare module '@androz2091/insta.js' {
         public fetchUser(query: string, force: boolean): Promise<User>;
         
         public editProfile(options: {}): Promise<void>;
-        public postPhotoInStory({ buffer: Buffer, media: any, width = 1080, height = 1080 }): Promise<void>;
+        public postPhotoInStory({ buffer: Buffer, media: any, width = 1080, height = 1080, stickers }: { stickers?: Array<Any> }): Promise<void>;
         public postStory({ buffer: Buffer }): Promise<void>;
         public postPhoto({ buffer: Buffer, caption: string, usertags: any, width = 1080, height = 1080 }): Promise<void>;
         public postVideo({ buffer: Buffer, image: Buffer, caption: string, usertags: any }): Promise<void>;
