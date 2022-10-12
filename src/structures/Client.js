@@ -379,7 +379,7 @@ class Client extends EventEmitter {
     async postPhotoInStory ({ buffer, media, height = 1080, width = 1920, stickers }) {
         const stickerBuild = new StickerBuilder()
 
-        if (stickers)
+        if (stickers) {
             for (const sticker of stickers) {
                 stickerBuild.add(sticker)
             }
