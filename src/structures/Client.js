@@ -396,10 +396,22 @@ class Client extends EventEmitter {
         return story
     }
     
-    async postStory ({ buffer }) {
+    async postStory ({ buffer, stickers }) {
+        const stickerBuild = new StickerBuilder()
+
+        if (stickers && stickers.length > 0) {
+            for (const sticker of stickers) {
+                stickerBuild.add(sticker)
+            }
+        }
+
+        stickerBuild.build()
+
         const story = await this.ig.publish.story({
-            file: buffer
+            file: buffer,
+            stickerConfig: stickerBuild
         })
+
     
         return story
     }

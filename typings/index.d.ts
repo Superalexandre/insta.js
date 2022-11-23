@@ -26,7 +26,7 @@ declare module '@androz2091/insta.js' {
         
         public editProfile(options: {}): Promise<void>;
         public postPhotoInStory({ buffer, media, width, height, stickers }: { buffer: Buffer, media: any, width: number, height: number, stickers?: Array<Any> }): Promise<void>;
-        public postStory({ buffer: Buffer }): Promise<void>;
+        public postStory({ buffer: Buffer, stickers: any }): Promise<void>;
         public postPhoto({ buffer: Buffer, caption: string, usertags: any, width = 1080, height = 1080 }): Promise<void>;
         public postVideo({ buffer: Buffer, image: Buffer, caption: string, usertags: any }): Promise<void>;
         public findLocation({ lat: number, lng: number, query: string }): Promise<any>;
